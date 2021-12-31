@@ -22,6 +22,18 @@ public class ConfigController {
 
     @Value("#{${hashMapValue}}")
     private Map<String,String> hashMapValue;
+
+    @Value("${management.endpoint.info.enabled}")
+    private String managementExposed;
+
+    @Value("${management.endpoint.web.exposure.include:**}")
+    private String managementinfo;
+
+    @Autowired
+    DataSourceTestInteface dataSourceTestInteface;
+
+
+
     @Autowired
     ConfigurationApplicationProps configurationApplicationProps;
 
@@ -31,8 +43,8 @@ public class ConfigController {
     public String getGreetings()
     {
 
-        System.out.println("all Keys "+System.getProperties().stringPropertyNames());
-        return greetingMessage+javaRunTime+hashMapValue +configurationApplicationProps.getTestMessage();
+        dataSourceTestInteface.test();
+        return greetingMessage+javaRunTime+hashMapValue +configurationApplicationProps.getTestMessage()+managementExposed+managementinfo;
     }
 
     @GetMapping("/greetingList")
